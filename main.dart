@@ -12,7 +12,7 @@ import 'data/DBHelper.dart'; //importamos esta linea de codigo para tener librer
 void main() => runApp(MyApp());//para ejecutar la aplicacion******************************************
 
 class MyApp extends StatelessWidget {
-
+//prueba para saber si subio el proyecto
 
   // extends de uns libreria que nos permitira muchas cosas de flutter
   @override
