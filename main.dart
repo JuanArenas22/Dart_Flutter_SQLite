@@ -1,5 +1,3 @@
-
-
 import 'dart:ui';
 import 'dart:io' as io;
 
@@ -9,7 +7,8 @@ import 'package:miflutter/models/Usuario.dart';
 
 import 'data/DBHelper.dart'; //importamos esta linea de codigo para tener librerias que nos ayudan con flutter
 
-void main() => runApp(MyApp());//para ejecutar la aplicacion******************************************
+void main() => runApp(
+    MyApp()); //para ejecutar la aplicacion******************************************
 
 class MyApp extends StatelessWidget {
 //prueba para saber si subio el proyecto
@@ -20,19 +19,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
-        debugShowCheckedModeBanner:
-            false, //con esta linea le quitamos la etiqueta que sale en el emulador de DEBUG
-        title: "Curso de dart",
-        theme: ThemeData(
-          //aqui le proporcionamos el color de fondo que le pondremos a la app
-          primarySwatch: Colors.deepOrange, //color
-        ),
-        home: HomePageMain() ,//titulo que llevara la aplicacion al ejecutarse
+      debugShowCheckedModeBanner:
+          false, //con esta linea le quitamos la etiqueta que sale en el emulador de DEBUG
+      title: "Curso de dart",
+      theme: ThemeData(
+        //aqui le proporcionamos el color de fondo que le pondremos a la app
+        primarySwatch: Colors.deepOrange, //color
+      ),
+      home: HomePageMain(), //titulo que llevara la aplicacion al ejecutarse
       routes: <String, WidgetBuilder>{
         '/MyApp': (BuildContext context) => MyApp(),
-          '/add_users': (BuildContext context) => add_users(null),
+        '/add_users': (BuildContext context) => add_users(null),
       },
-        );
+    );
   }
 }
 
@@ -42,6 +41,7 @@ class HomePageMain extends StatefulWidget {
 }
 
 class MyHomePage extends State<HomePageMain> {
+
   String title = 'Curso de Dart';
   DBHelper _dbHelper = DBHelper();
   Widget _users = SizedBox();
@@ -62,7 +62,7 @@ class MyHomePage extends State<HomePageMain> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     // TODO: implement build
     _context = context;
     return Scaffold(
@@ -70,7 +70,8 @@ class MyHomePage extends State<HomePageMain> {
         //aqui podemos agregarle lo que queramos a nuestra app
         title: appBarTitle,
         actions: <Widget>[
-          IconButton(//icono que nos permite buscar un usuario
+          IconButton(
+            //icono que nos permite buscar un usuario
             icon: icon,
             onPressed: () {
               setState(() {
@@ -86,13 +87,12 @@ class MyHomePage extends State<HomePageMain> {
                       color: Colors.white,
                     ),
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.search, color: Colors.white),
-                      hintStyle: TextStyle(color: Colors.white)
-                    ),
+                        prefixIcon: Icon(Icons.search, color: Colors.white),
+                        hintStyle: TextStyle(color: Colors.white)),
                     onChanged: searchOperation,
                   );
                   _handleSearchStart();
-                }else{
+                } else {
                   searchOperation(null);
                   _handleSearchEnd();
                 }
@@ -104,10 +104,11 @@ class MyHomePage extends State<HomePageMain> {
             //un icono
             icon: Icon(
               //aqui podemos decirle que queremos un icono
-              Icons.add, //aqui podemos decirle que tipo de icono queremos que se agregue en este caso el de Añador +
+              Icons
+                  .add, //aqui podemos decirle que tipo de icono queremos que se agregue en este caso el de Añador +
               color: Colors.white, //le proporcionamos un color
             ),
-            onPressed: ()=> {
+            onPressed: () => {
               Navigator.of(context).pushNamed('/add_users'),
             },
           ),
@@ -133,18 +134,20 @@ class MyHomePage extends State<HomePageMain> {
       ),
     );
   }
+
 //tarjetas
   GestureDetector card(Usuario doc) {
     return GestureDetector(
-      onLongPress: (){//aqui le decimos que podemos presionar la tarjeta por un corto tiempo para eliminar y llamamos el metodo (_ackAlert)
+      onLongPress: () {
+        //aqui le decimos que podemos presionar la tarjeta por un corto tiempo para eliminar y llamamos el metodo (_ackAlert)
         _ackAlert(doc);
       },
-      onTap: (){//este evento nos permite selecionar la tarjeta
+      onTap: () {
+        //este evento nos permite selecionar la tarjeta
         Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext contex) =>
-          add_users(doc)));
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext contex) => add_users(doc)));
       },
       child: Container(
         height: 124.0,
@@ -173,7 +176,6 @@ class MyHomePage extends State<HomePageMain> {
                       color: Colors.white,
                     ),
                   ),
-
                 ],
               ),
               Text(
@@ -191,17 +193,18 @@ class MyHomePage extends State<HomePageMain> {
   }
 
 //metodo que nos permite saber si se va a buscar algun usuario
-  void _handleSearchStart(){
+  void _handleSearchStart() {
     setState(() {
       _isSearching = true;
     });
   }
+
 //metodo que nos permite cancelar si no vamos a buscar algun usuario
-  void _handleSearchEnd(){
+  void _handleSearchEnd() {
     setState(() {
       this.icon = Icon(
         Icons.search,
-        color:  Colors.white,
+        color: Colors.white,
       );
       this.appBarTitle = Text(
         "Search user",
@@ -212,12 +215,11 @@ class MyHomePage extends State<HomePageMain> {
     });
   }
 
-  void searchOperation(String? searchText){
-    if(_isSearching == true){
+  void searchOperation(String? searchText) {
+    if (_isSearching == true) {
       userList(searchText);
     }
   }
-
 
 //es te metodo nos permite tener una lista de usuarios
   Future userList(String? searchText) async {
@@ -227,48 +229,49 @@ class MyHomePage extends State<HomePageMain> {
         if (searchText == null || searchText == "") {
           _users = Column(
               children: listUsuario.map((user) => buildItem(user)).toList());
-        }else{
-          var usuario = listUsuario.where((item) =>item.nombre!.startsWith(searchText)).toList();
-          if(0 < usuario.length){
+        } else {
+          var usuario = listUsuario
+              .where((item) => item.nombre!.startsWith(searchText))
+              .toList();
+          if (0 < usuario.length) {
             _users = Column(
-            children: usuario.map((user) => buildItem(user)).toList()
-            );
-
-          }else{
+                children: usuario.map((user) => buildItem(user)).toList());
+          } else {
             _users = SizedBox();
           }
         }
-      }else{
+      } else {
         _users = SizedBox();
       }
     });
   }
+
 //metodo que nos permite eliminar la tarjeta cuando la mantenemos precionada
-  Future<void> _ackAlert(Usuario user){
+  Future<void> _ackAlert(Usuario user) {
     return showDialog<void>(
-      context: _context!,
-      builder: (BuildContext context){
-        return AlertDialog(
-          title: Text('Eliminar Usuario'),
-          content: Text('Esta seguro de eliminar el siguiente usuario ${user.nombre}'),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('Cancelar'),
-              onPressed: (){
-                Navigator.of(context).pop();
-              },
-            ),
-            FlatButton(
-              child: Text('OK'),
-              onPressed: () async {
-                await _dbHelper.deleteUser(user.id!);
-                userList(null);
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      }
-    );
+        context: _context!,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Eliminar Usuario'),
+            content: Text(
+                'Esta seguro de eliminar el siguiente usuario ${user.nombre}'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Cancelar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () async {
+                  await _dbHelper.deleteUser(user.id!);
+                  userList(null);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
   }
 }

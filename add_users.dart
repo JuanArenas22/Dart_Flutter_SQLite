@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 import 'dart:io' as io;
 
@@ -102,6 +101,10 @@ class UserFormState extends State<UserForm> {
       _email.text = _user!.email!;
     }
   }
+
+  var _lista = ['carro', 'casa', 'vaca'];
+  String _vista = "Seleccione una opcion";
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -220,7 +223,8 @@ class UserFormState extends State<UserForm> {
                     _user!.email = _email.text;
                     dbHelper.updateUser(_user!);
                   }
-                  Navigator.of(context).pushNamedAndRemoveUntil('/MyApp',ModalRoute.withName('/MyApp'));
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/MyApp', ModalRoute.withName('/MyApp'));
                 }
               },
               color: Colors.green, //un color para el boton
@@ -233,6 +237,7 @@ class UserFormState extends State<UserForm> {
               ),
             ),
           ),
+
         ],
       ),
     );
